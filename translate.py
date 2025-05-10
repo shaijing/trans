@@ -1,7 +1,7 @@
 import time
 import torch
 from data import TranslationData
-from modules import Transformer
+from science4ai.nn.modules.transformer import Transformer
 from util import evaluate_trans
 from science4ai import load_checkpoint
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

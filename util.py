@@ -1,11 +1,11 @@
-import copy
 import time
+
 import evaluate
 import numpy as np
 from torch import nn
 from torch.autograd import Variable
 from data import get_subsequent_mask
-from science4ai import *
+from science4ai import save_checkpoint
 import torch
 MAX_LENGTH = 80
 # DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
