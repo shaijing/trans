@@ -1,5 +1,5 @@
-TRAIN_FILE = 'nmt/en-cn/train.txt'  # 训练集
-DEV_FILE = "nmt/en-cn/dev.txt"      # 验证集
+TRAIN_FILE = '../nmt/en-cn/train.txt'  # 训练集
+DEV_FILE = "../nmt/en-cn/dev.txt"  # 验证集
 from langconv import Converter
 from nltk import word_tokenize
 import json
@@ -24,5 +24,5 @@ with open(path, mode="r", encoding="utf-8") as f:
         sent_cn = ["BOS"] + [char for char in sent_cn] + ["EOS"]
         en.append(sent_en)
         cn.append(sent_cn)
-with open("data/dev_data_dict.json", mode="w", encoding="utf-8") as f:
+with open("../data/dev_data_dict.json", mode="w", encoding="utf-8") as f:
     json.dump(data_dict, f)

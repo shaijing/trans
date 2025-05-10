@@ -29,10 +29,10 @@ class Batch:
         3. 构造掩码
     """
 
-    def __init__(self, src, trg=None, pad=PAD):
+    def __init__(self, src, trg=None, pad=PAD,device=None):
         # 将输入、输出单词id表示的数据规范成整数类型
-        src = torch.from_numpy(src).to(DEVICE).long()
-        trg = torch.from_numpy(trg).to(DEVICE).long()
+        src = torch.from_numpy(src).to(device).long()
+        trg = torch.from_numpy(trg).to(device).long()
         self.src = src
         # 对于当前输入的语句非空部分进行判断，bool序列
         # 并在seq length前面增加一维，形成维度为 1×seq length 的矩阵
@@ -58,7 +58,8 @@ class Batch:
 
 
 class TranslationData:
-    def __init__(self, train_file='data/train_data_dict.json', dev_file="data/dev_data_dict.json", batch_size=128):
+    def __init__(self, train_file='data/train_data_dict.json', dev_file="data/dev_data_dict.json", batch_size=128,device=None):
+        self.device = device
         self.train_file = train_file
         self.dev_file = dev_file
         self.batch_size = batch_size
@@ -87,6 +88,9 @@ class TranslationData:
             data_li = json.load(f)
             en = [["BOS"] + word_tokenize(item["en-US"].lower()) + ["EOS"] for item in data_li]
             cn = [["BOS"] + [char for char in item["zh-CN"]] + ["EOS"] for item in data_li]
+        # if len(en)> 2000:
+        #     en = en[:1000]
+        #     cn = cn[:1000]
         return en, cn
 
     @staticmethod
@@ -204,7 +208,7 @@ class TranslationData:
             # 维度为：batch_size * 当前批次中语句的最大长度
             batch_cn = self.seq_padding(batch_cn)
             batch_en = self.seq_padding(batch_en)
-            batches.append(Batch(batch_en, batch_cn))
+            batches.append(Batch(batch_en, batch_cn,device=self.device))
         return batches
 
 
